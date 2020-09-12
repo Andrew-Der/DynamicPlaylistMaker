@@ -1,0 +1,7 @@
+.env
+backend/.env
+backend/testSpotifyClient.py
+frontend/node_modules
+frontend/public
+frontend/AWSCLIV2.pkg
+**/.DS_Store

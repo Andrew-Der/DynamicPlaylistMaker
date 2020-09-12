@@ -1,0 +1,14 @@
+{
+    "cluster": "my-cluster",
+    "serviceName": "my-service",
+    "taskDefinition": "dynamic-playlist-maker",
+    "loadBalancers": [
+        {
+            "targetGroupArn": "arn:aws:elasticloadbalancing:eu-west-1:326795578772:loadbalancer/app/my-elb/0b8151e04eb94cab",
+            "containerName": "web",
+            "containerPort": 4567
+        }
+    ],
+    "desiredCount": 1,
+    "role": "ecsTaskExecutionRole"
+}

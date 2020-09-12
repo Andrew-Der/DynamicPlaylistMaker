@@ -1,0 +1,27 @@
+
+import axios from 'axios';
+import { useContext } from 'react';
+import { AuthContext } from './router';
+
+// return this.perform('get', '/fetch_songs');
+export const perform = async (method, resource, data, jwt) => {
+
+  return axios({
+     method,
+     url: resource,
+     data,
+     headers: {
+       Authorization: `Bearer ${jwt}`,
+       Accept : "application/json",
+     }
+   }).then(resp => {
+      return resp.data ? resp.data : [];
+   }).catch(resp => {
+    if (resp.status_code == 401 && resp.text.search(/Token has expired/)) {
+      console.log("in error")
+      //do some handling here to refresh token
+      return "Token expired"
+    }
+    return resp 
+  })
+}
