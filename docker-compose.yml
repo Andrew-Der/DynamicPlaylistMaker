@@ -1,35 +1,36 @@
 version: '3'
 
 services:
-#   client:
-#     container_name: the_client
-#     build: 
-#       context: ./frontend
-#       dockerfile: Dockerfile
-#     # image: 326795578772.dkr.ecr.us-west-1.amazonaws.com/dynamic-playlist-maker:client_latest 
-#     stdin_open: true
-#     tty: true
-#     ports:
-#       - "3000:3000" 
-#     environment:
-#       - CHOKIDAR_USEPOLLING=true
-#       - REACT_APP_HOSTNAME=localhost:3000
+  client:
+    container_name: the_client
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    # image: 326795578772.dkr.ecr.us-west-1.amazonaws.com/dynamic-playlist-maker:client_latest 
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000" 
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_HOSTNAME=localhost:3000
+      - REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME=${SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}
   server:
     build: ./backend
-    image: 326795578772.dkr.ecr.us-west-1.amazonaws.com/dynamic-playlist-maker:server_latest 
+  #   image: 326795578772.dkr.ecr.us-west-1.amazonaws.com/dynamic-playlist-maker:server_latest 
     ports:
       - "5000:5000" 
     environment:
       - FLASK_ENV=development
       - FLASK_APP=/usr/src/app/server/web/api/endpoints.py
       - FLASK_DEBUG=1
-      - CLIENT_REDIRECT_HOSTNAME=localhost:3000
+      - SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME=${SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}
       - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
       - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-    logging:
-      driver: awslogs
-      options: 
-        awslogs-group: tutorial
-        awslogs-region: eu-west-1
-        awslogs-stream-prefix: web
+  #   logging:
+  #     driver: awslogs
+  #     options: 
+  #       awslogs-group: tutorial
+  #       awslogs-region: eu-west-1
+  #       awslogs-stream-prefix: web

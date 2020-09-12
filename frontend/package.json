@@ -27,9 +27,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "comments": {
-    "proxxy" : "dev: localhost, prod: server"
-  },
   "proxy": "http://server:5000",
   "browserslist": {
     "production": [

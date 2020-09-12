@@ -60,10 +60,7 @@ const Login = (props) => {
   }
 
   const API_URL = 'https://accounts.spotify.com/authorize'
-  // TODO: variabilize
-  // to be the host whatever served on , dev: localhost, prod:xxx.com/login
-  // 
-  const redirect_uri = `http://${process.env.REACT_APP_HOSTNAME}/login` 
+  const redirect_uri = `http://${process.env.REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}/login` 
   const token_state = generateRandomString(16)
   const scope = "playlist-modify-public playlist-read-private"
   const URL = API_URL + `?client_id=${cid}&response_type=code&scope=${scope}&state=${token_state}&redirect_uri=${redirect_uri}`
