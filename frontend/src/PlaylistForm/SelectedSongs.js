@@ -3,7 +3,7 @@ import { FormContext } from "./PlaylistForm";
 import TextField from '@material-ui/core/TextField';
 import InputNumber from 'rc-input-number';
 import 'rc-input-number/assets/index.css';
-
+import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';;
 
 const SelectedSongCards = (props) => {
   const {songs, dispatch} = props
@@ -28,6 +28,14 @@ const SelectedSongCards = (props) => {
         }}
       >
       </InputNumber>
+      <CancelPresentationIcon fontSize="small" color="action"
+        onClick={() => {
+          dispatch({
+            type: "REMOVE_BASE_SONG",
+            payload: index,
+          })
+        }}
+      />
     </li>
   )
 

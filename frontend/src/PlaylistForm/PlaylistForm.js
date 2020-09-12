@@ -61,6 +61,16 @@ const minSongsAndRankIsValid = (state) => {
     return true
 }
 
+const reorderSongsInDescendingRank = (songList) => {
+
+    // reOrder the song list
+    // itr through the list and have a len 10 array of arrays
+    // and append the songs through
+
+    // finally go through from 10 -> 1 and put songs in
+    return []
+}
+
 const reducer = (state, action) => {
     switch (action.type) {
         case "UPDATE_PLAYLIST_NAME":
@@ -109,6 +119,11 @@ const reducer = (state, action) => {
             createPlaylistLink: action.payload};
         case "CREATE_PLAYLIST_ERROR":
             return { ...state, isFetching: false, hasError: action.payload };
+        case "REORDER_BASE_SONGS_IN_DESCENDING_RANK":
+            const newOrder = reorderSongsInDescendingRank(state.baseSongs)
+            return { ...state,
+            baseSongs: newOrder
+        }
         default:
             return state;
     }
