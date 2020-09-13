@@ -8,7 +8,7 @@ export const perform = async (method, resource, data, jwt) => {
 
   return axios({
      method,
-     url: resource,
+     url: `${process.env.REACT_APP_BACKEND_SERVICE_URL}` + resource,
      data,
      headers: {
        Authorization: `Bearer ${jwt}`,

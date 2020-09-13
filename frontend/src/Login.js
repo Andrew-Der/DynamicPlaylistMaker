@@ -39,7 +39,7 @@ const Login = (props) => {
   }, []);
 
   const getAuthToken = (code, token_state) => {
-    axios.get(`/callback?code=${code}&state=${token_state}`).then(
+    axios.get(`${process.env.REACT_APP_BACKEND_SERVICE_URL}/callback?code=${code}&state=${token_state}`).then(
       (response) => {
         console.log(response)
         if (response.statusText == "OK") {
@@ -64,7 +64,7 @@ const Login = (props) => {
   const token_state = generateRandomString(16)
   const scope = "playlist-modify-public playlist-read-private"
   const URL = API_URL + `?client_id=${cid}&response_type=code&scope=${scope}&state=${token_state}&redirect_uri=${redirect_uri}`
-
+  console.log(`http://${process.env.REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}/login`)
   return (
     <div>
       {loggedIn ?

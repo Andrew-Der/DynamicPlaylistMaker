@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=/usr/src/app/web/api/endpoints.py
+      - SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME=${SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}
+      - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
+      - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_BACKEND_SERVICE_URL=${REACT_APP_BACKEND_SERVICE_URL}
+      - REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME=${SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}
+    ports:
+      - 3007:80
+    depends_on:
+      - server
