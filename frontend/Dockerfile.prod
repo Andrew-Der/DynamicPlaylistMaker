@@ -20,11 +20,13 @@ RUN npm install react-scripts@3.3.0 -g --silent
 # set environment variables
 # TODO read env vars from docker-compose.prod.yml
 ARG REACT_APP_BACKEND_SERVICE_URL
-ENV REACT_APP_BACKEND_SERVICE_URL http://localhost:5001
-ARG NODE_ENV
+# ENV REACT_APP_BACKEND_SERVICE_URL http://localhost:5001
+ENV REACT_APP_BACKEND_SERVICE_URL http://my-elb-1354012222.us-west-1.elb.amazonaws.com
+
 ENV NODE_ENV production
 ARG REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME
-ENV REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME localhost:3007 
+# ENV REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME localhost:3007 
+ENV REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME my-elb-1354012222.us-west-1.elb.amazonaws.com
 
 # create build
 COPY . /usr/src/app
