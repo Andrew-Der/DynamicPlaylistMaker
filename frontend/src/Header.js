@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <nav id="navigation">
       <h1 href="#" className="logo">
-        HOOKED
+        Dynamic Playlist Maker 
       </h1>
     </nav>
   );
