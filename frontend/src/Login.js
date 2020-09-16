@@ -39,7 +39,7 @@ const Login = (props) => {
   }, []);
 
   const getAuthToken = (code, token_state) => {
-    axios.get(`/callback?code=${code}&state=${token_state}`).then(
+    axios.get(`${process.env.REACT_APP_BACKEND_SERVICE_URL}/callback?code=${code}&state=${token_state}`).then(
       (response) => {
         console.log(response)
         if (response.statusText == "OK") {

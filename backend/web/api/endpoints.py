@@ -108,8 +108,7 @@ def requestAccessToken():
 
   return jsonify({
     'jwt_access_token' : ret["access_token"], 
-    'sp_access_token' : ret["sp_access_token"]
-    })
+  })
 
 
 @app.route("/fetch_songs", methods=["POST"])
@@ -162,21 +161,3 @@ def logout():
     user_info = TOKEN_DB.pop(user_id)
     ret_msg = "removed user credentials"
   return jsonify({'success': ret_msg})
-
-
-# # route not called bc browser redirects to SP login
-# @app.route("/login", methods=["GET"])
-# def login():
-#   URL = 'https://accounts.spotify.com/authorize'
-#   state = generateRandomString(16)
-#   PARAMS = {
-#     'client_id' : cid, 
-#     'response_type' : 'code', 
-#     #TODO remove port
-#     'redirect_uri' : 'http://localhost:4433' + '/callback', 
-#     'scope' : scope,
-#     'state' : state 
-#   }
-#   res = requests.get(url= URL, params=PARAMS)
-#   print(res.url)
-#   return redirect(res.url) 

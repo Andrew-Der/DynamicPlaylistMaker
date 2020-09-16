@@ -1,0 +1,25 @@
+# pull official base image
+FROM python:3.8.1-slim
+
+RUN pip install pipenv
+
+# install 
+RUN apt-get update && \
+    apt-get -y install python3-pip python-dev build-essential && \
+    apt-get clean
+
+# set working directory
+WORKDIR /usr/src/app
+
+COPY Pipfile ./
+COPY Pipfile.lock ./ 
+RUN pipenv install --deploy
+
+# add app
+COPY . .
+
+# set up host and port
+ENV FLASK_RUN_HOST 0.0.0.0
+EXPOSE 5000
+
+CMD pipenv run python -m flask run

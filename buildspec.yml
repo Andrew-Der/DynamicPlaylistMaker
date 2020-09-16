@@ -1,0 +1,32 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_REGION: "us-west-1"
+    REACT_APP_BACKEND_SERVICE_URL: "http://localhost:5001"
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  pre_build:
+    commands:
+      - echo logging in to ecr...
+      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+  build:
+    commands:
+      - echo building images...
+      - >
+        docker build \
+          -f backend/Dockerfile.prod \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dynamic-playlist-maker-server:prod \
+          ./backend
+      - >
+        docker build \
+          -f frontend/Dockerfile.prod \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dynamic-playlist-maker-client:prod \
+          ./frontend
+  post_build:
+    commands:
+    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dynamic-playlist-maker-server:prod
+    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/dynamic-playlist-maker-client:prod
