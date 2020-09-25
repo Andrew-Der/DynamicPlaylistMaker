@@ -1,15 +1,10 @@
-from .middlewares import login_required
 from flask import Flask, json, jsonify, g, request
-from schema import FetchSongSchema, MakePlayistSchema
 from flask_cors import CORS
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     jwt_refresh_token_required, create_refresh_token,
     get_jwt_identity, decode_token
 )
-from web.clients.spotify import fetchSongsFromSpotify 
-from web.clients.spotify import makePlaylistUsingBaseSongs
-from web.clients.spotify import getSpotifyUserId
 import requests
 from flask import request, redirect, url_for
 import base64
@@ -18,6 +13,14 @@ import spotipy
 from collections import defaultdict
 from datetime import timedelta
 import os
+import sys
+backend_path = os.path.join(os.getcwd(), "backend")
+sys.path.append(backend_path)
+from web.api.middlewares import login_required
+from web.api.schema import FetchSongSchema, MakePlayistSchema
+from web.clients.spotify import fetchSongsFromSpotify 
+from web.clients.spotify import makePlaylistUsingBaseSongs
+from web.clients.spotify import getSpotifyUserId
 
 app = Flask(__name__)
 CORS(app)
@@ -30,7 +33,12 @@ secret = os.getenv("SPOTIFY_CLIENT_SECRET") # Client Secret; copy this from your
 #for avaliable scopes see https://developer.spotify.com/web-api/using-scopes/
 scope = 'playlist-modify-public playlist-read-private'
 
-#hardcoded token for testing
+# @app.route("/hey", methods=["GET"])
+# def hello_world():
+#   import pdb; pdb.set_trace()
+#   return jsonify("Hello, World!")
+
+ #hardcoded token for testing
 the_access_token = ""
 
 TOKEN_DB = defaultdict(dict)
@@ -104,6 +112,7 @@ def requestAccessToken():
     'sp_refresh_token': refresh_token,
     'sp_expires_in': expires_in,
   }
+  print(access_token)
   saveToken(ret, user_id)
 
   return jsonify({
