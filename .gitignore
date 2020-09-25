@@ -1,4 +1,4 @@
-.env
+**.env
 backend/.env
 backend/testSpotifyClient.py
 frontend/node_modules

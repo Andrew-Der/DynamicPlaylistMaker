@@ -19,7 +19,7 @@ MIN_INVALID_SKF_SPLIT               = 2
 BEST_SKF_SPLIT                      = 10 
 LIMIT_REC_TRACKS_FOR_SINGLE_TRACK   = 5
 DEFAULT_PCA_NUM_COMPONENTS          = 8
-MIN_RATING_ACCEPTANCE_FOR_REC_SONGS = 8 # 1-10 where 10 is the new song highly aligns with base
+DEFAULT_MIN_RATING_ACCEPTANCE       = 8 # 1-10 where 10 is the new song highly aligns with base
 
 def getSpotifyUserId(token):
     sp = spotipy.Spotify(auth=token)
@@ -46,7 +46,7 @@ def fetchSongsFromSpotify(token, track_query):
     else:
         return []
 
-def makePlaylistUsingBaseSongs(token, user_id, newPlaylistName, baseSongs):
+def makePlaylistUsingBaseSongs(token, user_id, newPlaylistName, baseSongs, min_rating_acceptance, return_count_only=False):
     """
         baseSongs
         #  [{'id': 'a1', 'name': ' ', 'rank': 10}, {id, name, rank}]  
@@ -56,24 +56,26 @@ def makePlaylistUsingBaseSongs(token, user_id, newPlaylistName, baseSongs):
     sp = spotipy.Spotify(auth=token)
     playlist_df = getPlaylistDF(sp, baseSongs)
 
-    # get the rec songs
+    # Get the recommended songs
     try:
-        rec_songs = doSomeMLToGetGetSongs(sp, playlist_df, baseSongs)
+        rec_songs = doSomeMLToGetGetSongs(sp, playlist_df, baseSongs, min_rating_acceptance)
     except Error as e:
         return e["text"]
 
     baseSongIds = [song['id'] for song in baseSongs]
-    # return {'href' : "send it"}
-    playlist_info = sp.user_playlist_create(user_id, name=newPlaylistName)
-    # Add tracks to the new playlist
-    sp.user_playlist_add_tracks(
-        user=user_id, playlist_id=playlist_info['id'], tracks=baseSongIds + rec_songs)
-    
-    link = playlist_info.get('external_urls').get('spotify')
-    return {'href': link}
+    if return_count_only:
+        return {'number_of_new_songs': len(rec_songs)}
+    else:
+        # Create new Spotify playlist and add tracks
+        playlist_info = sp.user_playlist_create(user_id, name=newPlaylistName)
+        sp.user_playlist_add_tracks(
+            user=user_id, playlist_id=playlist_info['id'], tracks=baseSongIds + rec_songs)
+
+        link = playlist_info.get('external_urls').get('spotify')
+        return {'href': link}
 
 
-def doSomeMLToGetGetSongs(sp, playlist_df, baseSongs):
+def doSomeMLToGetGetSongs(sp, playlist_df, baseSongs, min_rating_acceptance=DEFAULT_MIN_RATING_ACCEPTANCE):
     
     #use random forest to classify songs
     # import pdb; pdb.set_trace()
@@ -148,7 +150,7 @@ def doSomeMLToGetGetSongs(sp, playlist_df, baseSongs):
     rec_playlist_df['ratings']=y_pred_class
     rec_playlist_df = rec_playlist_df.sort_values('ratings', ascending = False)
     rec_playlist_df = rec_playlist_df.reset_index()
-    recs_to_add = rec_playlist_df[rec_playlist_df['ratings']>=MIN_RATING_ACCEPTANCE_FOR_REC_SONGS]['index'].values.tolist()
+    recs_to_add = rec_playlist_df[rec_playlist_df['ratings']>=min_rating_acceptance]['index'].values.tolist()
 
     # i have this data here in rec_tracks
     return recs_to_add

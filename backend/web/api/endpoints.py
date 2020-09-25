@@ -33,18 +33,11 @@ secret = os.getenv("SPOTIFY_CLIENT_SECRET") # Client Secret; copy this from your
 #for avaliable scopes see https://developer.spotify.com/web-api/using-scopes/
 scope = 'playlist-modify-public playlist-read-private'
 
-# @app.route("/hey", methods=["GET"])
-# def hello_world():
-#   import pdb; pdb.set_trace()
-#   return jsonify("Hello, World!")
-
- #hardcoded token for testing
-the_access_token = ""
-
 TOKEN_DB = defaultdict(dict)
 
 def saveToken(token_info, user_id):
   global TOKEN_DB
+  print(f"saving token for user_id: {user_id}")
   TOKEN_DB[user_id] = {
     'access_token': token_info['access_token'],
     'refresh_token' : token_info['refresh_token'],
@@ -99,11 +92,6 @@ def requestAccessToken():
   refresh_token = res_object.get('refresh_token')
   expires_in = res_object.get('expires_in')
   
-  # set jwt in json data
-  # set jwt refresh in cookie 
-
-  # returning this to the front end
-  # if access_token != None:
   user_id = getSpotifyUserId(res_object.get('access_token')) 
   ret = {
     'access_token': create_access_token(identity=user_id, expires_delta=timedelta(hours=3)),
@@ -112,7 +100,6 @@ def requestAccessToken():
     'sp_refresh_token': refresh_token,
     'sp_expires_in': expires_in,
   }
-  print(access_token)
   saveToken(ret, user_id)
 
   return jsonify({
@@ -124,10 +111,7 @@ def requestAccessToken():
 @jwt_required
 def fetchSongs():
 
-  global the_access_token
-  if not the_access_token:
-    the_access_token = getSpotifyAccessToken(request)
-    print(f"Not using hardcoded token, using real token {the_access_token}")
+  the_access_token = getSpotifyAccessToken(request)
 
   # given the query, return a list of songs from Spotify
   fetch_song_data = FetchSongSchema().load(json.loads(request.data))
@@ -143,11 +127,9 @@ def fetchSongs():
 @app.route("/create_playlist", methods=["POST"])
 # @jwt_required
 def makePlaylist():
-  # given songIDs, Post a New Playlist to the users Spotify account
-  global the_access_token
-  if not the_access_token:
-    the_access_token = getSpotifyAccessToken(request)
-    print(f"Not using hardcoded token, using real token {the_access_token}")
+  """Given songIDs, Post a New Playlist to the users Spotify account
+  """
+  the_access_token = getSpotifyAccessToken(request)
 
   user_id = ""
   user_id = getSpotifyUserId(getSpotifyAccessToken(request))
@@ -156,7 +138,14 @@ def makePlaylist():
 
   req_data = MakePlayistSchema().load(json.loads(request.data))
 
-  results = makePlaylistUsingBaseSongs(the_access_token, user_id, req_data["playlist_name"], req_data["base_songs"])
+  results = makePlaylistUsingBaseSongs(
+    the_access_token, 
+    user_id, 
+    req_data["playlist_name"], 
+    req_data["base_songs"],
+    req_data["min_rating_acceptance"],
+    req_data["return_count_only"],
+  )
   return jsonify(results)
 
 
