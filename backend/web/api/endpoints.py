@@ -14,6 +14,7 @@ from collections import defaultdict
 from datetime import timedelta
 import os
 import sys
+# Appending "/backend" to sys.path for local builds
 backend_path = os.path.join(os.getcwd(), "backend")
 sys.path.append(backend_path)
 from web.api.middlewares import login_required
@@ -26,14 +27,31 @@ app = Flask(__name__)
 CORS(app)
 app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY") 
 jwt = JWTManager(app)
-
-cid = os.getenv("SPOTIFY_CLIENT_ID")        # Client ID; copy this from your app 
-secret = os.getenv("SPOTIFY_CLIENT_SECRET") # Client Secret; copy this from your app
-
-#for avaliable scopes see https://developer.spotify.com/web-api/using-scopes/
+# Client ID; copy this from your app 
+cid = os.getenv("SPOTIFY_CLIENT_ID")        
+# Client Secret; copy this from your app
+secret = os.getenv("SPOTIFY_CLIENT_SECRET") 
+# For avaliable scopes see https://developer.spotify.com/web-api/using-scopes/
 scope = 'playlist-modify-public playlist-read-private'
 
 TOKEN_DB = defaultdict(dict)
+
+"""
+TODO: These should namedTuples
+BaseSong = collections.namedtuple('BaseSong', [
+  'id',    # string of the song's Spotify ID
+  'name',  # string
+  'rank',  # int of the user's rank for the song
+  ])
+TokenEntry = collections.namedtuple('TokenEntry), [
+  'access_token',      # string of JWT token between client and server
+  'refresh_token',     # string of refresh for JWT
+  'sp_access_token',   # string of users SP session token, expires in 60 min
+  'sp_refresh_token',  # string of users SP refresh token, KEEP SECRET
+  'sp_expires_in',     # int of ttl of sp_access_token
+]
+"""
+
 
 def saveToken(token_info, user_id):
   global TOKEN_DB
@@ -48,6 +66,7 @@ def saveToken(token_info, user_id):
     }
   }
 
+
 def getSpotifyAccessToken(request):
   global TOKEN_DB
   jwt_token = request.headers['Authorization'].replace('Bearer ', '')
@@ -56,6 +75,7 @@ def getSpotifyAccessToken(request):
   the_access_token = token_data['sp']['access_token']
   return the_access_token
 
+
 def generateRandomString(length):
   text = '' 
   possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -63,13 +83,18 @@ def generateRandomString(length):
     text += (possible[random.randint(0, len(possible) - 1)])
   return text
 
+
 @app.route("/hey", methods=["GET"])
 def hello_world():
+  """ Route used for health check.
+  """
   return jsonify("Hello, World!")
+
 
 @app.route("/callback", methods=["GET","POST"])
 def requestAccessToken():
-
+  """ Called from client with access_code, to retrieve access_token from Spotify.
+  """
   [code, state] = request.query_string.decode("utf-8").split('&')
   code = code.replace("code=",'')
   state = state.replace("state=", '')
@@ -110,10 +135,9 @@ def requestAccessToken():
 @app.route("/fetch_songs", methods=["POST"])
 @jwt_required
 def fetchSongs():
-
   the_access_token = getSpotifyAccessToken(request)
 
-  # given the query, return a list of songs from Spotify
+  # Given the query, return a list of songs
   fetch_song_data = FetchSongSchema().load(json.loads(request.data))
 
   if fetch_song_data.get('errors'):
@@ -125,9 +149,9 @@ def fetchSongs():
 
  
 @app.route("/create_playlist", methods=["POST"])
-# @jwt_required
+@jwt_required
 def makePlaylist():
-  """Given songIDs, Post a New Playlist to the users Spotify account
+  """Given songIDs, post a new Playlist to the user's Spotify account
   """
   the_access_token = getSpotifyAccessToken(request)
 

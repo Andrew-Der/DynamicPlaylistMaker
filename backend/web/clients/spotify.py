@@ -1,8 +1,5 @@
-# the user already has the token
-# they got it in the client
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-# import spotipy.util as util
 import pandas as pd
 from sklearn.ensemble.forest import RandomForestRegressor, RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -14,17 +11,24 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from collections import defaultdict
 
-
+# 1-10 where 10 is the new song highly aligns with base
+DEFAULT_MIN_RATING_ACCEPTANCE       = 8 
 MIN_INVALID_SKF_SPLIT               = 2
 BEST_SKF_SPLIT                      = 10 
 LIMIT_REC_TRACKS_FOR_SINGLE_TRACK   = 5
 DEFAULT_PCA_NUM_COMPONENTS          = 8
-DEFAULT_MIN_RATING_ACCEPTANCE       = 8 # 1-10 where 10 is the new song highly aligns with base
 
 def getSpotifyUserId(token):
+    """ Fetch the user_id from the auth_token
+
+    :param token: string
+
+    :returns: string
+    """
     sp = spotipy.Spotify(auth=token)
     user = sp.current_user()
     return user.get('id')
+
 
 def fetchSongsFromSpotify(token, track_query):
     sp = spotipy.Spotify(auth=token)
