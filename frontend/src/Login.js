@@ -71,7 +71,7 @@ const Login = (props) => {
       <Redirect to={CREATE_PLAYLIST}/>
       : 
       <span>
-        <a href={URL}>Login to access Dashboard</a>
+        <a href={URL}>Really click here to Login</a>
         <p>{errorMsg}</p>
       </span>
       }

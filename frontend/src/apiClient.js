@@ -1,7 +1,5 @@
 
 import axios from 'axios';
-import { useContext } from 'react';
-import { AuthContext } from './router';
 
 // return this.perform('get', '/fetch_songs');
 export const perform = async (method, resource, data, jwt) => {

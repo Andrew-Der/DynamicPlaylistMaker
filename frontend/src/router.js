@@ -12,7 +12,7 @@ export const AuthContext = React.createContext()
 
 const RequireAuth = ({loggedIn, children}) => {
   if (!loggedIn) {
-    return <Redirect to={LOGIN_URL} />;
+    return <Redirect to={HOME_URL} />;
   }
   return children;
 };
@@ -57,7 +57,6 @@ function AppRouter() {
         <Switch>
         <Route exact path={'/'} component={Homepage} />
         <Route exact path={HOME_URL} component={Homepage} />
-
         <Route exact path={LOGIN_URL} render={(props) => <Login {...props}/>}/>
         <RequireAuth loggedIn={state.loggedIn}>
           <Route exact path={CREATE_PLAYLIST} component={PlaylistForm} />
