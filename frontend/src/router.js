@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { HOME_URL, LOGIN_URL, CREATE_PLAYLIST} from "./urls";
+import { HOME_URL, LOGOUT_URL, CREATE_PLAYLIST} from "./urls";
 import { useReducer } from "react"
 
 import Header from "./Header";
@@ -12,7 +12,7 @@ export const AuthContext = React.createContext()
 
 const RequireAuth = ({loggedIn, children}) => {
   if (!loggedIn) {
-    return <Redirect to={LOGIN_URL} />;
+    return <Redirect to={HOME_URL} />;
   }
   return children;
 };
@@ -55,10 +55,9 @@ function AppRouter() {
       <AuthContext.Provider value={{state, dispatch}}>
         <Header/>
         <Switch>
-        <Route exact path={'/'} component={Homepage} />
-        <Route exact path={HOME_URL} component={Homepage} />
-
-        <Route exact path={LOGIN_URL} render={(props) => <Login {...props}/>}/>
+        <Route exact path={'/'} render={(props) => <Login {...props}/>}/>
+        <Route exact path={HOME_URL} render={(props) => <Login {...props}/>}/>
+        <Route exact path={LOGOUT_URL} component={Homepage}/>
         <RequireAuth loggedIn={state.loggedIn}>
           <Route exact path={CREATE_PLAYLIST} component={PlaylistForm} />
         </RequireAuth>

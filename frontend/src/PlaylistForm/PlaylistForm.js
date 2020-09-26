@@ -25,13 +25,15 @@ const exampleBaseSongs = [
 const initialState = {
     baseSongs : [],            // [{SID, name, artists, rank}, {}]
     // baseSongs: exampleBaseSongs,
-    playlistName : "Super Awesome Machine Learning Playlist Name...",         // Super Awesome ML Playlist
+    playlistName : "Super Awesome Machine Learning Playlist...",         // Super Awesome ML Playlist
     playlistTraits : ["","",""],       // ['energy', 'danceability'] 3 max
     playlistTempo : 0,         // -1=decreasing, 0=none, 1=increasing
     playlistDuration : -1,     // minutes
     includeBaseSongs : true,
     formError : "",
     currentPageNumber : 1,
+    minRatingAcceptanceForNewSongs: 8,
+    numberOfNewSongsToAdd: "",
     isFetching : false,
     hasError : "",
     createPlaylistSuccess : false,
@@ -111,6 +113,14 @@ const reducer = (state, action) => {
         case "UPDATE_TRAIT":
             state.playlistTraits[action.payload.index] = action.payload.trait
             return { ...state, includeBaseSongs: state.playlistTraits };
+        case "UPDATE_MIN_RATING_ACCEPTANCE_FOR_NEW_SONGS":
+            return {...state,
+            minRatingAcceptanceForNewSongs: action.payload,
+            };
+        case "UPDATE_NUMBER_OF_NEW_SONGS":
+            return {...state,
+            numberOfNewSongsToAdd: action.payload,
+            };
         case "CREATE_PLAYLIST_FETCH":
             return { ...state, isFetching: true };
         case "CREATE_PLAYLIST_SUCCESS":

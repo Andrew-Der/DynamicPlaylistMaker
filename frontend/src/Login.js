@@ -4,6 +4,7 @@ import { CREATE_PLAYLIST } from "./urls";
 import axios from 'axios';
 import { useState, useContext } from "react";
 import { AuthContext } from "./router";
+import logo from './logo.svg';
 
 var cid = "9ec49d21b920488fa9f49b2ea2879ea5"
 
@@ -24,8 +25,23 @@ function getAuthCodeAndState(search) {
   return words
 }
 
+function getSpotifyLoginRedirectUrl() {
+  /**
+   * Get the url that initiates the login with Spotify.
+   * The user should be redirected here to begin the login process.
+   * 
+   * @return {string}
+   */
+  const API_URL = 'https://accounts.spotify.com/authorize'
+  const redirect_uri = `http://${process.env.REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}/home` 
+  const token_state = generateRandomString(16)
+  const scope = "playlist-modify-public playlist-read-private"
+  const URL = API_URL + `?client_id=${cid}&response_type=code&scope=${scope}&state=${token_state}&redirect_uri=${redirect_uri}`
+  return URL
+}
+
 const Login = (props) => {
-  const {state, dispatch}  = useContext(AuthContext)
+  const { dispatch }  = useContext(AuthContext)
   const [loggedIn, setLoggedIn] = useState(false)
   const [errorMsg, setErrorMsg] = useState(null)
 
@@ -58,22 +74,24 @@ const Login = (props) => {
         setErrorMsg(`${err.statusText}: ${err.message}`)
       })
   }
-
-  const API_URL = 'https://accounts.spotify.com/authorize'
-  const redirect_uri = `http://${process.env.REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}/login` 
-  const token_state = generateRandomString(16)
-  const scope = "playlist-modify-public playlist-read-private"
-  const URL = API_URL + `?client_id=${cid}&response_type=code&scope=${scope}&state=${token_state}&redirect_uri=${redirect_uri}`
+  const URL = getSpotifyLoginRedirectUrl()
 
   return (
     <div>
       {loggedIn ?
-      <Redirect to={CREATE_PLAYLIST}/>
+        <Redirect to={CREATE_PLAYLIST}/>
       : 
-      <span>
-        <a href={URL}>Login to access Dashboard</a>
-        <p>{errorMsg}</p>
-      </span>
+      <div>
+        <header className="App-header">
+          <a href={URL}>Click here to Login</a>
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>This is the home page.</p>
+          <span>
+            <a href={URL}>Click here to Login</a>
+            <p>{errorMsg}</p>
+          </span>
+        </header>
+      </div>
       }
     </div>
   )

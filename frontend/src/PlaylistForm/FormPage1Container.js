@@ -1,17 +1,20 @@
 import React from "react";
-import { useState } from "react";
 import { FormContext } from "./PlaylistForm";
 import SongSearchBar from "./SongSearchBar";
 import SelectedSongs from "./SelectedSongs";
 
 const FormPage1Container = () => {
 
-    const [error, setError] = useState("")
-    const { dispatch } = React.useContext(FormContext)
-
+    const { state, dispatch } = React.useContext(FormContext)
     return (
-        //col 1 = songFetch, col 2 = baseSongs
         <span>
+        <form>
+            <label for="playlistName">Playlist Name</label>
+            <input id="playlistName" style={{'width' : '50%'}}
+            value={state.playlistName}
+            onChange={(e) => dispatch({type: "UPDATE_PLAYLIST_NAME", payload: e.target.value})}
+            />
+        </form>
         <SongSearchBar/>
         <SelectedSongs/>
         <button onClick={()=>{dispatch({
