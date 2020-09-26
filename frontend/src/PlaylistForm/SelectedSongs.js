@@ -38,25 +38,15 @@ const SelectedSongCards = (props) => {
       />
     </li>
   )
-
   return (
     <ul>{songList}</ul>
   )
-
 }
 
 const SelectedSongs = () => {
   const { state, dispatch } = React.useContext(FormContext)
-
   return (
     <React.Fragment>
-      <form>
-        <label for="playlistName">Name</label>
-        <input id="playlistName" style={{'width' : '50%'}}
-        value={state.playlistName}
-        onChange={(e) => dispatch({type: "UPDATE_PLAYLIST_NAME", payload: e.target.value})}
-        />
-      </form>
       <SelectedSongCards songs={state.baseSongs} dispatch={dispatch}/>
     </React.Fragment>
   )
