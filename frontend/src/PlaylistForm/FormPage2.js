@@ -47,38 +47,52 @@ const FormPage2 = () => {
     const { state: formState, dispatch: formDispatch } = React.useContext(FormContext)
     const { state: authState, dispatch: authDispatch } = React.useContext(AuthContext)
     return (
-        <div>
-          <label>Min Rating Acceptance for New Songs</label>
-          <InputNumber 
-            min={0} max={10} step={1} 
-            value={formState.minRatingAcceptanceForNewSongs}
-            style={{ width: 100 }}
-            onChange={(newValue) => { 
-              formDispatch({
-                type: "UPDATE_MIN_RATING_ACCEPTANCE_FOR_NEW_SONGS",
-                payload: newValue
-              })
-            }}
-          >
-          </InputNumber>
-          <div>
-            <button onClick={() => submitForm(formState, formDispatch, authState.jwtToken, true)}>
-              Find out number of new song to add...
-            </button>
-            {formState.numberOfNewSongsToAdd}
+        <div className="pageDos">
+          <div className="pageDosContent">
+            <div className="text-box container">
+            <span> Here you can change the Min Rating Acceptance which
+              does the following to allow more or less songs and I'm
+              just typing away to fill this description.
+            </span>
+            </div>
+            <span className="formField">
+              <h4 className="minRatingText">Min Rating Acceptance</h4>
+              <InputNumber 
+                min={0} max={10} step={1} 
+                value={formState.minRatingAcceptanceForNewSongs}
+                style={{ width: 100 }}
+                onChange={(newValue) => { 
+                  formDispatch({
+                    type: "UPDATE_MIN_RATING_ACCEPTANCE_FOR_NEW_SONGS",
+                    payload: newValue
+                  })
+                }}
+              >
+              </InputNumber>
+            </span>
+            <div>
+              {formState.numberOfNewSongsToAdd}
+              <div className="textButtonContainer" 
+                onClick={() => submitForm(formState, formDispatch, authState.jwtToken, true)}>
+                <h4>Calculate the number of new songs</h4>
+              </div>
+              <div className="textButtonContainer" 
+                onClick={() => submitForm(formState, formDispatch, authState.jwtToken)}>
+                <h4>Create Playlist!</h4>
+              </div>
+            </div>
+            <div>
+              {formState.createPlaylistSuccess?
+                  <a href={formState.createPlaylistLink}>{formState.createPlaylistLink}</a>:
+                  ""
+              }
+            </div>
+          
           </div>
-          <div>
-            <button onClick={()=>{formDispatch({
-                type: "UPDATE_FORM_PAGE",
-                payload: 1
-            })}}>Previous</button>
-            <button onClick={() => submitForm(formState, formDispatch, authState.jwtToken)}>
-                Create Playlist!</button>
-            {formState.createPlaylistSuccess?
-                <a href={formState.createPlaylistLink}>{formState.createPlaylistLink}</a>:
-                ""
-            }
-          </div>
+          <button onClick={()=>{formDispatch({
+                  type: "UPDATE_FORM_PAGE",
+                  payload: 1
+          })}}>Previous</button>
         </div>
     )
 }

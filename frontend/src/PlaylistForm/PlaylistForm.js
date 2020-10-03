@@ -23,15 +23,15 @@ const exampleBaseSongs = [
 ]
 
 const initialState = {
-    baseSongs : [],            // [{SID, name, artists, rank}, {}]
-    // baseSongs: exampleBaseSongs,
+    // baseSongs : [],            // [{SID, name, artists, rank}, {}]
+    baseSongs: exampleBaseSongs,
     playlistName : "Super Awesome Machine Learning Playlist...",         // Super Awesome ML Playlist
     playlistTraits : ["","",""],       // ['energy', 'danceability'] 3 max
     playlistTempo : 0,         // -1=decreasing, 0=none, 1=increasing
     playlistDuration : -1,     // minutes
     includeBaseSongs : true,
     formError : "",
-    currentPageNumber : 1,
+    currentPageNumber : 2,
     minRatingAcceptanceForNewSongs: 8,
     numberOfNewSongsToAdd: "",
     isFetching : false,

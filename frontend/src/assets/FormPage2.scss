@@ -1,0 +1,53 @@
+.pageDos {
+
+    .pageDosContent {
+        flex: 1;
+    }
+    // used for the footer
+    min-height: 65vh;
+    // spacing below the nav
+    margin-top: 7em;
+    margin-bottom: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .hr {
+      margin: 1em 2em;
+    }
+
+    .text-box {
+        max-width: 400px;
+        text-align: center;
+        margin-bottom: 2em;
+    }
+
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-left: auto;
+    }
+
+    .formField {
+        .minRatingText {
+            float: left;
+        }
+        margin-top: 3em;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .textButtonContainer {
+        h4 {
+            text-decoration: underline;
+        }
+        :hover {
+            background-color: yellow;
+        }
+        margin-top: 3em;
+        margin-bottom: 3em;
+    }
+
+}
+

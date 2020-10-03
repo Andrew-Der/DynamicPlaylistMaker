@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
+import './assets/DynamicPlaylistMaker.scss';
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRouter from "./router";
 import { Helmet } from "react-helmet";
