@@ -31,7 +31,7 @@ const initialState = {
     playlistDuration : -1,     // minutes
     includeBaseSongs : true,
     formError : "",
-    currentPageNumber : 2,
+    currentPageNumber : 1,
     minRatingAcceptanceForNewSongs: 8,
     numberOfNewSongsToAdd: "",
     isFetching : false,

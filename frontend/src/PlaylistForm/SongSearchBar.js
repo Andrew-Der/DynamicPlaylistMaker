@@ -5,9 +5,16 @@ import { FormContext } from "./PlaylistForm";
 import { perform } from "./../apiClient";
 import SearchBar from "material-ui-search-bar";
 
+const dummyInitialSongs = [ 
+  ["Holy Holy Holy", ["Justin Bieber"], 9, "Holy Album", 123],
+  ["Holy Holy Holy", ["Justin Bieber"], 9, "Holy Album", 123],
+  ["Holy Holy Holy", ["Justin Bieber"], 9, "Holy Album", 123],
+]
+
 const initialState = {
   query: "",
   fetchedSongs: [],   // [[str:name, [str]:artists, int:popular, str:album, int:id], []]
+  // fetchedSongs: dummyInitialSongs,
   isFetching: false,
   hasError: false,
 }
@@ -46,6 +53,7 @@ const reducer = (state, action) => {
 const SongCards = (props) => {
   const { dispatch, songs } = props
   const listItems = songs.map((song) => 
+    <div className="listFetchedSongContainer">
     <li onClick={() => {
       dispatch({
         type: "ADD_BASE_SONG",
@@ -53,7 +61,8 @@ const SongCards = (props) => {
       })
     }} key={song[4]}>
       {song[0]}, {song[1].join(', ')} , {song[3]}
-    </li>  
+    </li>
+    </div>  
   )
   return (
     <ol>{listItems}</ol>
@@ -84,15 +93,15 @@ export const SongSearchBar = () => {
   }
 
   return (
-    <div>
-      <div>
+    <div className="songSearchContainer">
+      <div className="songSearchBar">
       <SearchBar placeHolder="Blinding Lights"
         value={state.query}
         onChange={(newValue) => dispatch({type: "QUERY_UPDATE", payload: newValue})}
         onRequestSearch={() => fetchSongs()}
       />
       </div>
-      <div>
+      <div className="songSearchList">
         <SongCards dispatch={formDispatch} songs={state.fetchedSongs}/>
       </div>
     </div>

@@ -1,0 +1,98 @@
+$page1-content-width: 500px;
+
+.formPage1 {
+
+    // used for the footer
+    min-height: 65vh;
+    // spacing below the nav
+    margin-top: 6em;
+    margin-bottom: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .formPage1Content {
+        flex: 1;
+    }
+
+    .text-box {
+        text-align: center;
+        margin-top: 2em;
+        margin-bottom: 2em;
+    }
+
+    .container {
+        width: 100%;
+        //padding-right: 15px;
+        //padding-left: 15px;
+        margin-left: auto;
+        max-width: $page1-content-width;
+    }
+
+    .singleHorizontalFormField {
+        display: flex;
+        margin-top: 3em;
+        width: 100%;
+        .labelText {
+            float: left;
+            width: 30%;
+        }
+        input {
+            width: 70%;
+        }
+    }
+
+    .songSearchContainer {
+        width: 100%;
+        margin-top: 2em;
+        .songSearchBar {
+            width: 100%;
+        }
+        .songSearchResults {
+            width: 100%;
+        }
+        .listFetchedSongContainer {
+            width: 100%;
+        }
+        .songSearchList {
+            // border: 1px solid #D9D9D9;
+        }
+    }
+
+    .baseSongContainer {
+        margin-top: 1em;
+        width: 100%;
+        ul {
+            padding-left: 0px;
+        }
+        .baseSongListContainer {
+            width: 100%;
+            .songRankContainer {
+                display: flex;
+                flex-direction: row;
+                .songRank {
+                    height: auto;
+                    border-radius: 0px;
+                    div {
+                        span {
+                            height: 50%;
+                        }
+                    }
+                }
+            }
+            .songName {
+                width: 100%;
+                div:first-child {
+                    border-radius: 0px;
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                }
+            }
+            .songOptions {
+                display: flex;
+                flex-flow: row-reverse wrap;
+                border-top: 1px solid #D9D9D9;
+            }
+        }
+    }
+}
