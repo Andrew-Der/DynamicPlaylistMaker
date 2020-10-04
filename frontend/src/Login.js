@@ -3,8 +3,7 @@ import { Redirect } from "react-router-dom";
 import { CREATE_PLAYLIST } from "./urls";
 import axios from 'axios';
 import { useState, useContext } from "react";
-import { AuthContext } from "./router";
-import logo from './logo.svg';
+import { AuthContext, isAuthenticated } from "./router";
 
 var cid = "9ec49d21b920488fa9f49b2ea2879ea5"
 
@@ -33,7 +32,7 @@ function getSpotifyLoginRedirectUrl() {
    * @return {string}
    */
   const API_URL = 'https://accounts.spotify.com/authorize'
-  const redirect_uri = `http://${process.env.REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}/home` 
+  const redirect_uri = `http://${process.env.REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}/login` 
   const token_state = generateRandomString(16)
   const scope = "playlist-modify-public playlist-read-private"
   const URL = API_URL + `?client_id=${cid}&response_type=code&scope=${scope}&state=${token_state}&redirect_uri=${redirect_uri}`
@@ -42,7 +41,10 @@ function getSpotifyLoginRedirectUrl() {
 
 const Login = (props) => {
   const { dispatch }  = useContext(AuthContext)
-  const [loggedIn, setLoggedIn] = useState(false)
+  /** 
+   * Not using state to hold loggedIn
+   * const [loggedIn, setLoggedIn] = useState(false) 
+  */
   const [errorMsg, setErrorMsg] = useState(null)
 
   /* immediately invoked when SP returns here after login*/
@@ -57,15 +59,15 @@ const Login = (props) => {
   const getAuthToken = (code, token_state) => {
     axios.get(`${process.env.REACT_APP_BACKEND_SERVICE_URL}/callback?code=${code}&state=${token_state}`).then(
       (response) => {
-        console.log(response)
+        // console.log(response)
         if (response.statusText == "OK") {
           const jwt = response.data.jwt_access_token
           dispatch({
             type: "LOGIN",
             payload: jwt
           }) 
-          console.log("LOGIN page setting true")
-          setLoggedIn(true)
+          // console.log("LOGIN page setting true")
+          // setLoggedIn(true)
         }
         else {
           throw response 
@@ -78,14 +80,13 @@ const Login = (props) => {
 
   return (
     <div>
-      {loggedIn ?
+      {isAuthenticated() ?
         <Redirect to={CREATE_PLAYLIST}/>
       : 
       <div>
         <header className="App-header">
+          Landing Login Page
           <a href={URL}>Click here to Login</a>
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>This is the home page.</p>
           <span>
             <a href={URL}>Click here to Login</a>
             <p>{errorMsg}</p>

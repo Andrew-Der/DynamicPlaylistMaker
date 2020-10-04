@@ -1,9 +1,10 @@
 
 import axios from 'axios';
+import { getJwtToken } from "./router"
 
-// return this.perform('get', '/fetch_songs');
-export const perform = async (method, resource, data, jwt) => {
+export const perform = async (method, resource, data, jwt_token) => {
 
+  const jwt = getJwtToken()
   return axios({
      method,
      url: `${process.env.REACT_APP_BACKEND_SERVICE_URL}` + resource,

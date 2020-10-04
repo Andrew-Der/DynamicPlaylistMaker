@@ -105,7 +105,7 @@ def requestAccessToken():
   URL = 'https://accounts.spotify.com/api/token'
   PARAMS = {
     'code' : code,
-    'redirect_uri' : f'http://{os.getenv("SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME")}/home',
+    'redirect_uri' : f'http://{os.getenv("SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME")}/login',
     'grant_type' : 'authorization_code',
     'headers' : {
       'Content-Type' : 'application/x-www-form-urlencoded',

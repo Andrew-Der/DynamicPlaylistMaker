@@ -1,20 +1,21 @@
 import React from "react"
 import { Link } from 'react-router-dom';
+import { LOGIN_URL } from "./urls"
 
-const Homepage = () => {
-
+const HomePage = () => {
 
   return (
     <>
-      <div className="logout">
+      <div className="homePage">
         <div className="container text-box">
             <p>
-              Logout Page: Thanks for using my app!
+              ABOUT PAGE
             </p>
-            <Link to="/home">Click to re-login</Link>
+            <Link to={LOGIN_URL}>Click to login</Link>
+            <Link to={LOGIN_URL}>Click to login</Link>
         </div>
       </div>
     </>
   )
 }
-export default Homepage
+export default HomePage
