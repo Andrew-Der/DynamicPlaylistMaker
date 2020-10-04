@@ -3,9 +3,9 @@ $page1-content-width: 500px;
 .formPage1 {
 
     // used for the footer
-    min-height: 65vh;
+    min-height: 80vh;
     // spacing below the nav
-    margin-top: 6em;
+    margin-top: 5em;
     margin-bottom: 3em;
     display: flex;
     flex-direction: column;
@@ -53,6 +53,9 @@ $page1-content-width: 500px;
         }
         .listFetchedSongContainer {
             width: 100%;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid orange;
         }
         .songSearchList {
             // border: 1px solid #D9D9D9;

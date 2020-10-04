@@ -147,9 +147,6 @@ const PlaylistForm = () => {
     return (
         <FormContext.Provider value={{state, dispatch}}>
             {formPages[state.currentPageNumber - 1]}
-            <div>
-                {state.formError}
-            </div>
         </FormContext.Provider>
     )
   }
