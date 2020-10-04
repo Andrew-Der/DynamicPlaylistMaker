@@ -17,6 +17,7 @@ MIN_INVALID_SKF_SPLIT               = 2
 BEST_SKF_SPLIT                      = 10 
 LIMIT_REC_TRACKS_FOR_SINGLE_TRACK   = 5
 DEFAULT_PCA_NUM_COMPONENTS          = 8
+SPOTIFY_MAX_NUM_SONGS_FOR_PLAYLIST_ADD = 100 
 
 def getSpotifyUserId(token):
     """ Fetch the user_id from the auth_token
@@ -72,8 +73,13 @@ def makePlaylistUsingBaseSongs(token, user_id, newPlaylistName, baseSongs, min_r
     else:
         # Create new Spotify playlist and add tracks
         playlist_info = sp.user_playlist_create(user_id, name=newPlaylistName)
-        sp.user_playlist_add_tracks(
-            user=user_id, playlist_id=playlist_info['id'], tracks=baseSongIds + rec_songs)
+        total_songs = baseSongIds + rec_songs
+        itrs = len(baseSongIds + rec_songs) // SPOTIFY_MAX_NUM_SONGS_FOR_PLAYLIST_ADD
+        for itr in range(itrs + 1):
+            first_idx = itr * SPOTIFY_MAX_NUM_SONGS_FOR_PLAYLIST_ADD
+            last_idx = (itr + 1) * SPOTIFY_MAX_NUM_SONGS_FOR_PLAYLIST_ADD
+            sp.user_playlist_add_tracks(
+                user=user_id, playlist_id=playlist_info['id'], tracks=total_songs[first_idx:last_idx])
 
         link = playlist_info.get('external_urls').get('spotify')
         return {'href': link}

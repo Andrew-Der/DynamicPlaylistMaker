@@ -1,10 +1,12 @@
 import React from "react";
+import { useState } from "react";
 import { FormContext } from "./PlaylistForm";
 import { AuthContext } from "./../router";
 import { perform } from './../apiClient';
 import InputNumber from 'rc-input-number';
+import ReactAnimatedEllipsis from 'react-animated-ellipsis';
 
-const submitForm = async(state, dispatch, token, return_count_only=false) => {
+const submitForm = async(state, dispatch, token, callback, return_count_only=false) => {
 
     dispatch({type: "CREATE_PLAYLIST_FETCH"})
     const ret = await perform('post', '/create_playlist', 
@@ -16,6 +18,7 @@ const submitForm = async(state, dispatch, token, return_count_only=false) => {
     }, 
     token)
 
+    callback()
     /* Handle only getting the count */
     if (return_count_only) {
       if (ret.constructor == Object && 'number_of_new_songs' in ret) {
@@ -46,6 +49,8 @@ const FormPage2 = () => {
 
     const { state: formState, dispatch: formDispatch } = React.useContext(FormContext)
     const { state: authState, dispatch: authDispatch } = React.useContext(AuthContext)
+    const [calculateLoading, setCalculateLoading] = useState(false)
+    const [submitLoading, setSubmitLoading] = useState(false)
     return (
         <div className="pageDos">
           <div className="pageDosContent">
@@ -71,20 +76,38 @@ const FormPage2 = () => {
               </InputNumber>
             </span>
             <div>
-              {formState.numberOfNewSongsToAdd}
               <div className="textButtonContainer" 
-                onClick={() => submitForm(formState, formDispatch, authState.jwtToken, true)}>
+                onClick={() => {
+                  setCalculateLoading(true)              
+                  submitForm(formState, formDispatch, authState.jwtToken, 
+                    () => setCalculateLoading(false), true)}}>
                 <h4>Calculate the number of new songs</h4>
               </div>
+              <div className="calculateNumberSongsText">
+                {calculateLoading ? 
+                  (<ReactAnimatedEllipsis/>)
+                  : <span>{formState.numberOfNewSongsToAdd}</span>
+                }
+              </div>
               <div className="textButtonContainer" 
-                onClick={() => submitForm(formState, formDispatch, authState.jwtToken)}>
+                onClick={() => {
+                  setSubmitLoading(true)
+                  submitForm(formState, formDispatch, authState.jwtToken, 
+                    () => setSubmitLoading(false), false)}}>
                 <h4>Create Playlist!</h4>
               </div>
             </div>
-            <div>
-              {formState.createPlaylistSuccess?
-                  <a href={formState.createPlaylistLink}>{formState.createPlaylistLink}</a>:
-                  ""
+            <div className="spotifyPlaylistLinkText">
+              {submitLoading ? <ReactAnimatedEllipsis/>
+              :
+              formState.createPlaylistSuccess ?
+                <span>
+                  Listen to your new playlist{' '}
+                  <a href={formState.createPlaylistLink}>
+                  right in Spotify.
+                  </a>
+                </span>
+                :""
               }
             </div>
           

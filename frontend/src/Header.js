@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <Container>
     <Navbar id="nagivation" expand="md">
-      <Navbar.Brand href="#home">DynamicSpotifyPlayer</Navbar.Brand>
+      <Navbar.Brand href="home">DynamicSpotifyPlayer</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav" >
       <Nav> 

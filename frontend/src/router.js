@@ -48,7 +48,7 @@ const reducer = (state, action) => {
 
 function AppRouter() {
 
-  const [state, dispatch] = useReducer(reducer, dummyInitialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
       <div>
 

@@ -20,7 +20,7 @@ const NavbarLoginStatus = () => {
     history.push(LOGOUT_URL)
   }
 
-  const loginText = state.loggedIn ? "Sign Out" : "Sign In";
+  const loginText = state.loggedIn ? "Sign Out" : "Sign In Page";
   return (
     <Nav.Item onClick={() => {
         if (state.loggedIn) {
