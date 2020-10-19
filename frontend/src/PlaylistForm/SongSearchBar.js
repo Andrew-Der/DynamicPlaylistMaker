@@ -45,19 +45,28 @@ const reducer = (state, action) => {
         ...state,
         query: action.payload
       }
+    case "SELECTED_SONG":
+      return {
+        ...state,
+        query: "",
+        fetchedSongs: [] 
+      }
     default:
-    return state;
+      return state;
   }
 }
 
 const SongCards = (props) => {
-  const { dispatch, songs } = props
+  const { searchDispatch, formDispatch, songs } = props
   const listItems = songs.map((song) => 
     <div className="listFetchedSongContainer">
     <li onClick={() => {
-      dispatch({
+      formDispatch({
         type: "ADD_BASE_SONG",
         payload: song,
+      })
+      searchDispatch({
+        type: "SELECTED_SONG",
       })
     }} key={song[4]}>
       {song[0]}, {song[1].join(', ')} , {song[3]}
@@ -102,7 +111,11 @@ export const SongSearchBar = () => {
       />
       </div>
       <div className="songSearchList">
-        <SongCards dispatch={formDispatch} songs={state.fetchedSongs}/>
+        <SongCards 
+          searchDispatch={dispatch} 
+          formDispatch={formDispatch} 
+          songs={state.fetchedSongs} 
+        />
       </div>
     </div>
   );

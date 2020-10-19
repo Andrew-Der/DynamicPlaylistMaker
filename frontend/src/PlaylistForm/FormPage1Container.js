@@ -15,7 +15,7 @@ const FormPage1Container = () => {
         <div className="formPage1">
             <div className="container formPage1Content">
                 <form className="singleHorizontalFormField">
-                    <label className="labelText" for="playlistName">Playlist Name</label>
+                    <label className="labelText" for="playlistName">Your New Playlist Name</label>
                     <input id="playlistName"
                     value={state.playlistName}
                     onChange={(e) => dispatch({type: "UPDATE_PLAYLIST_NAME", payload: e.target.value})}
@@ -24,8 +24,15 @@ const FormPage1Container = () => {
                 <div className="text-box container"> 
                     <Collapse in={open}>
                     <div id="example-collapse-text">
-                        Here does a descriptive description describing
-                        how to use this thing.
+                    Let’s create a playlist with a purpose, what kind of vibes are you feeling?
+                    <br/>Then, use the search bar to find songs and select them into the playlist. 
+                    After adding all the songs, give each track an individual rating from 1-5 where…
+                    <br/>1 = The song is good but don’t need to hear more like it
+                    <br/>3 = Great song and would like to hear more like it
+                    <br/>5 = Love the track and really want to hear more like it
+                    <br/><br/>
+                    The small catch here, there must be at least two of each number rating and at least 6 songs. 
+                    <br/>Happy Playlisting!
                     </div>
                     </Collapse>
                     <div>

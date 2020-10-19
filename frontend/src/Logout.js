@@ -5,12 +5,14 @@ import { ABOUT_URL } from "./urls";
 const Logout = () => {
   return (
     <>
-      <div className="logout">
+      <div className="logoutContainer">
         <div className="container text-box">
             <p>
-              Logout Page: Thanks for using my app!
+              Thanks for using my app!
+              <br/>Hope you discover new songs and enjoy the playlist.
+              <br/>If you want to donate, click here :)
             </p>
-            <Link to={ABOUT_URL}>Click to visit About Page</Link>
+            <Link to={ABOUT_URL}>Back to the About Page!</Link>
         </div>
       </div>
     </>

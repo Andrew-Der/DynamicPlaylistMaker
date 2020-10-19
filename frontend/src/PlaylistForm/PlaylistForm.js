@@ -23,9 +23,9 @@ const exampleBaseSongs = [
 ]
 
 const initialState = {
-    // baseSongs : [],            // [{SID, name, artists, rank}, {}]
-    baseSongs: exampleBaseSongs,
-    playlistName : "Super Awesome Machine Learning Playlist...",         // Super Awesome ML Playlist
+    baseSongs : [],            // [{SID, name, artists, rank}, {}]
+    // baseSongs: exampleBaseSongs,
+    playlistName : "Smooth tunes for the dunes..", // Super Awesome ML Playlist
     playlistTraits : ["","",""],       // ['energy', 'danceability'] 3 max
     playlistTempo : 0,         // -1=decreasing, 0=none, 1=increasing
     playlistDuration : -1,     // minutes
@@ -103,7 +103,7 @@ const reducer = (state, action) => {
         case "UPDATE_FORM_PAGE":
             // 1-> 2 or 2 -> 1
             if (action.payload == 2 && !minSongsAndRankIsValid(state)) {
-                return {...state, formError: "Select at least 6 Songs, with right rankings."} 
+                return {...state, formError: "Select at least 6 Songs, with at least two of each number rating."} 
             }
             else {
                 return { ...state, currentPageNumber: action.payload, formError: "" };

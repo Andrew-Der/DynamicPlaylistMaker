@@ -51,18 +51,25 @@ const FormPage2 = () => {
     const { state: authState, dispatch: authDispatch } = React.useContext(AuthContext)
     const [calculateLoading, setCalculateLoading] = useState(false)
     const [submitLoading, setSubmitLoading] = useState(false)
+
+    const addSongText = formState.numberOfNewSongsToAdd ? formState.numberOfNewSongsToAdd + " new songs to add!" : ""
     return (
         <div className="pageDos">
           <div className="pageDosContent">
             <div className="text-box container">
-            <span> Here you can change the Min Rating Acceptance which
-              does the following to allow more or less songs and I'm
-              just typing away to fill this description.
+            <span> Let's set the Minimum Rating Acceptance.  
+              This is a threshold for new songs to be added into your final playlist. <br/>
+              The lower the Acceptance, the more vague and wider song selection. <br/>
+              The higher the Acceptance, the more specific and accurate song selection. <br/><br/>
+              Feel free to play around with different values by adjusting the acceptance and clicking "Calculate"!
+              <br/><br/>                    
+              When you're happy with the number of new songs added, hit CREATE! 
             </span>
             </div>
             <span className="formField">
               <h4 className="minRatingText">Min Rating Acceptance</h4>
               <InputNumber 
+                className="minRatingValue"
                 min={0} max={10} step={1} 
                 value={formState.minRatingAcceptanceForNewSongs}
                 style={{ width: 100 }}
@@ -78,30 +85,37 @@ const FormPage2 = () => {
             <div>
               <div className="textButtonContainer" 
                 onClick={() => {
-                  setCalculateLoading(true)              
-                  submitForm(formState, formDispatch, authState.jwtToken, 
-                    () => setCalculateLoading(false), true)}}>
+                  if (!calculateLoading) {
+                    setCalculateLoading(true)              
+                    submitForm(formState, formDispatch, authState.jwtToken, 
+                      () => setCalculateLoading(false), true)}}
+                  }
+              >
                 <h4>Calculate the number of new songs</h4>
               </div>
               <div className="calculateNumberSongsText">
                 {calculateLoading ? 
-                  (<ReactAnimatedEllipsis/>)
-                  : <span>{formState.numberOfNewSongsToAdd}</span>
+                  (<ReactAnimatedEllipsis className="loadingEllipses" fontSize="5em"/>)
+                  : <span className="yellow-text">{addSongText}</span>
                 }
               </div>
               <div className="textButtonContainer" 
                 onClick={() => {
-                  setSubmitLoading(true)
-                  submitForm(formState, formDispatch, authState.jwtToken, 
-                    () => setSubmitLoading(false), false)}}>
+                  if (!submitLoading) {
+                    setSubmitLoading(true)
+                    submitForm(formState, formDispatch, authState.jwtToken, 
+                      () => setSubmitLoading(false), false)
+                  }
+                }}
+              >
                 <h4>Create Playlist!</h4>
               </div>
             </div>
             <div className="spotifyPlaylistLinkText">
-              {submitLoading ? <ReactAnimatedEllipsis/>
+              {submitLoading ? <ReactAnimatedEllipsis className="loadingEllipses" fontSize="5em"/>
               :
               formState.createPlaylistSuccess ?
-                <span>
+                <span className="yellow-text">
                   Listen to your new playlist{' '}
                   <a href={formState.createPlaylistLink}>
                   right in Spotify.

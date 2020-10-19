@@ -59,15 +59,12 @@ const Login = (props) => {
   const getAuthToken = (code, token_state) => {
     axios.get(`${process.env.REACT_APP_BACKEND_SERVICE_URL}/callback?code=${code}&state=${token_state}`).then(
       (response) => {
-        // console.log(response)
         if (response.statusText == "OK") {
           const jwt = response.data.jwt_access_token
           dispatch({
             type: "LOGIN",
             payload: jwt
           }) 
-          // console.log("LOGIN page setting true")
-          // setLoggedIn(true)
         }
         else {
           throw response 
@@ -83,15 +80,11 @@ const Login = (props) => {
       {isAuthenticated() ?
         <Redirect to={CREATE_PLAYLIST}/>
       : 
-      <div>
-        <header className="App-header">
-          Landing Login Page
-          <a href={URL}>Click here to Login</a>
-          <span>
-            <a href={URL}>Click here to Login</a>
+      <div className="loginContainer">
+          <span className="text-box">
+            <a className="loginLink" href={URL}>Click here to Login</a>
             <p>{errorMsg}</p>
           </span>
-        </header>
       </div>
       }
     </div>
