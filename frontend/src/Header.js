@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <Container>
     <Navbar id="nagivation" expand="md">
-      <Navbar.Brand href={ABOUT_URL}>DynamicSpotifyPlayer</Navbar.Brand>
+      <Navbar.Brand href={ABOUT_URL}>playlistifier.space</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav" >
       <Nav> 

@@ -6,7 +6,7 @@
     // used for the footer
     min-height: 80vh;
     // spacing below the nav
-    margin-top: 6em;
+    margin-top: 4em;
     margin-bottom: 3em;
     display: flex;
     flex-direction: column;
@@ -65,15 +65,21 @@
         }
     }
     .minRatingValue {
-        height: auto;
+        height: 100%;
         border-radius: 0px;
+        border: solid black 1px;
         background-color: $base-songs-background-color;
         div {
             span {
                 height: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             input {
                 background-color: $base-songs-background-color;
+                color: black;
+                margin: 10% 0 10% 0;
             }
         }
     }

@@ -31,8 +31,6 @@ jwt = JWTManager(app)
 cid = os.getenv("SPOTIFY_CLIENT_ID")        
 # Client Secret; copy this from your app
 secret = os.getenv("SPOTIFY_CLIENT_SECRET") 
-# For avaliable scopes see https://developer.spotify.com/web-api/using-scopes/
-scope = 'playlist-modify-public playlist-read-private'
 
 TOKEN_DB = defaultdict(dict)
 

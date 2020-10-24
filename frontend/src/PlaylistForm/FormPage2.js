@@ -9,10 +9,19 @@ import ReactAnimatedEllipsis from 'react-animated-ellipsis';
 const submitForm = async(state, dispatch, token, callback, return_count_only=false) => {
 
     dispatch({type: "CREATE_PLAYLIST_FETCH"})
+    const adjusted_base_song_ranks = state.baseSongs.map((song) => { 
+      return {
+        id: song.id,
+        name: song.name,
+        artists: song.artists,
+        rank: song.rank + 5,
+      }
+    })
+    console.log(adjusted_base_song_ranks)
     const ret = await perform('post', '/create_playlist', 
     {
         'playlist_name' : state.playlistName,
-        'base_songs': state.baseSongs,
+        'base_songs': adjusted_base_song_ranks,
         'min_rating_acceptance': state.minRatingAcceptanceForNewSongs,
         'return_count_only': return_count_only,
     }, 
@@ -68,19 +77,19 @@ const FormPage2 = () => {
             </div>
             <span className="formField">
               <h4 className="minRatingText">Min Rating Acceptance</h4>
-              <InputNumber 
-                className="minRatingValue"
-                min={0} max={10} step={1} 
-                value={formState.minRatingAcceptanceForNewSongs}
-                style={{ width: 100 }}
-                onChange={(newValue) => { 
-                  formDispatch({
-                    type: "UPDATE_MIN_RATING_ACCEPTANCE_FOR_NEW_SONGS",
-                    payload: newValue
-                  })
-                }}
-              >
-              </InputNumber>
+                <InputNumber 
+                  className="minRatingValue"
+                  min={0} max={10} step={1} 
+                  value={formState.minRatingAcceptanceForNewSongs}
+                  style={{ width: 100 }}
+                  onChange={(newValue) => { 
+                    formDispatch({
+                      type: "UPDATE_MIN_RATING_ACCEPTANCE_FOR_NEW_SONGS",
+                      payload: newValue
+                    })
+                  }}
+                >
+                </InputNumber>
             </span>
             <div>
               <div className="textButtonContainer" 

@@ -10,22 +10,23 @@ const SP_ARTIST_INDEX = 1
 const SP_POPULARITY_INDEX = 2
 const SP_ALBUM_NAME = 3
 const SP_SONG_ID_INDEX = 4
+const DEFAULT_BASE_SONG_RANK = 4
 
 const exampleBaseSongs = [
-    {id: "1h6Pww9RsC6gLMQA7zZop7",name: "Bad Guy",artists: "Billie", rank: 10},
-    {id: "4AqN8IdKCfItCSbuaFch81",name: "Bad Guy",artists: "Billie", rank: 10},
-    {id: "4U9kJBr61UhO5srPib7zyz",name: "Bad Guy",artists: "Billie", rank: 8},
-    {id: "6RKFXPdoCBRcLljsxKZUNw",name: "Bad Guy",artists: "Billie", rank: 9},
-    {id: "4Oxoa9kJmuFGTYvwGFfyY9",name: "Bad Guy",artists: "Billie", rank: 8},
-    {id: "21UoRIOIjkWdHU8xbxQ0Z7",name: "Bad Guy",artists: "Billie", rank: 9},
-    {id: "0sf12qNH5qcw8qpgymFOqD",name: "Bad Guy",artists: "Billie", rank: 8},
-    {id: "5vBRXormXITLRQBZAl0Jbx",name: "Bad Guy",artists: "Billie", rank: 9},
+    {id: "1h6Pww9RsC6gLMQA7zZop7",name: "Bad Guy",artists: "Billie", rank: 5},
+    {id: "4AqN8IdKCfItCSbuaFch81",name: "Bad Guy",artists: "Billie", rank: 5},
+    {id: "4U9kJBr61UhO5srPib7zyz",name: "Bad Guy",artists: "Billie", rank: 3},
+    {id: "6RKFXPdoCBRcLljsxKZUNw",name: "Bad Guy",artists: "Billie", rank: 3},
+    {id: "4Oxoa9kJmuFGTYvwGFfyY9",name: "Bad Guy",artists: "Billie", rank: 3},
+    {id: "21UoRIOIjkWdHU8xbxQ0Z7",name: "Bad Guy",artists: "Billie", rank: 4},
+    {id: "0sf12qNH5qcw8qpgymFOqD",name: "Bad Guy",artists: "Billie", rank: 3},
+    {id: "5vBRXormXITLRQBZAl0Jbx",name: "Bad Guy",artists: "Billie", rank: 4},
 ]
 
 const initialState = {
-    baseSongs : [],            // [{SID, name, artists, rank}, {}]
-    // baseSongs: exampleBaseSongs,
-    playlistName : "Smooth tunes for the dunes..", // Super Awesome ML Playlist
+    //baseSongs : [],            // [{SID, name, artists, rank}, {}]
+    baseSongs: exampleBaseSongs,
+    playlistName : "My smooth tunes for the dunes..", // Super Awesome ML Playlist
     playlistTraits : ["","",""],       // ['energy', 'danceability'] 3 max
     playlistTempo : 0,         // -1=decreasing, 0=none, 1=increasing
     playlistDuration : -1,     // minutes
@@ -64,12 +65,12 @@ const minSongsAndRankIsValid = (state) => {
 }
 
 const reorderSongsInDescendingRank = (songList) => {
-
-    // reOrder the song list
-    // itr through the list and have a len 10 array of arrays
-    // and append the songs through
-
-    // finally go through from 10 -> 1 and put songs in
+    /*** 
+     * reOrder the song list
+     * itr through the list and have a len 10 array of arrays
+     * and append the songs through
+     * finally go through from 10 -> 1 and put songs in
+     * */ 
     return []
 }
 
@@ -83,7 +84,7 @@ const reducer = (state, action) => {
                 id: action.payload[SP_SONG_ID_INDEX],
                 name: action.payload[SP_SONG_NAME_INDEX],
                 artists: action.payload[SP_ARTIST_INDEX].join(', '),
-                rank: 8
+                rank: DEFAULT_BASE_SONG_RANK
             }
             return { ...state, 
             baseSongs: [...state.baseSongs, newSong]};

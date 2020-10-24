@@ -28,13 +28,14 @@ function getSpotifyLoginRedirectUrl() {
   /**
    * Get the url that initiates the login with Spotify.
    * The user should be redirected here to begin the login process.
+   * More about SP scope info : https://developer.spotify.com/documentation/general/guides/scopes/
    * 
    * @return {string}
    */
   const API_URL = 'https://accounts.spotify.com/authorize'
   const redirect_uri = `http://${process.env.REACT_APP_SPOTIFY_REDIRECT_TO_CLIENT_HOSTNAME}/login` 
   const token_state = generateRandomString(16)
-  const scope = "playlist-modify-public playlist-read-private"
+  const scope = "user-library-read playlist-modify-public playlist-read-private"
   const URL = API_URL + `?client_id=${cid}&response_type=code&scope=${scope}&state=${token_state}&redirect_uri=${redirect_uri}`
   return URL
 }

@@ -18,13 +18,13 @@ const SelectedSongCards = (props) => {
       <Container>
       <Row noGutters={true} >
       <Col xs={8}>
-      <TextField className="songName" disabled id="outlined-basic" variant="outlined"   
-        defaultValue={[song.name, song.artists].join(', ')}
-      />
+      <div className="songNameContainer">
+        <p className="songNameText">{[song.name, song.artists].join(' by ')}</p>
+      </div>
       </Col>
       <Col xs={2} className="songRankContainer">
       <InputNumber className="songRank"
-        min={0} max={10} step={1} 
+        min={1} max={5} step={1} 
         value={song.rank}
         style={{ width: 100 }}
         onChange={(newValue) => { 

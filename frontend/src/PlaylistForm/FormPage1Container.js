@@ -14,6 +14,10 @@ const FormPage1Container = () => {
     return (
         <div className="formPage1">
             <div className="container formPage1Content">
+                <div className="text-box container"> 
+                    Create a Spotify playlist from best recommendations of songs you choose.
+                    First, give the playlist a name. It works best when the playlist has a theme, what kind of vibes are you feeling?
+                </div>
                 <form className="singleHorizontalFormField">
                     <label className="labelText" for="playlistName">Your New Playlist Name</label>
                     <input id="playlistName"
@@ -24,12 +28,11 @@ const FormPage1Container = () => {
                 <div className="text-box container"> 
                     <Collapse in={open}>
                     <div id="example-collapse-text">
-                    Let’s create a playlist with a purpose, what kind of vibes are you feeling?
-                    <br/>Then, use the search bar to find songs and select them into the playlist. 
-                    After adding all the songs, give each track an individual rating from 1-5 where…
-                    <br/>1 = The song is good but don’t need to hear more like it
-                    <br/>3 = Great song and would like to hear more like it
-                    <br/>5 = Love the track and really want to hear more like it
+                    Then, use the search bar to find songs and select them into the playlist. 
+                    After adding the songs, rate each song individually according to playlist relevance where:
+                    <br/><br/>1 = The song is good but just here for the sake of harmony
+                    <br/>3 = Great song and would like to hear more like it, it moderately characterizes this playlist
+                    <br/>5 = Love the song and really want to hear more like it, it strongly characterizes this playlist
                     <br/><br/>
                     The small catch here, there must be at least two of each number rating and at least 6 songs. 
                     <br/>Happy Playlisting!
@@ -41,7 +44,9 @@ const FormPage1Container = () => {
                         aria-controls="example-collapse-text"
                         aria-expanded={open}
                     >
-                        {open?<KeyboardArrowUpIcon/>:<KeyboardArrowDownIcon/>}
+                        {open?
+                            <div><KeyboardArrowUpIcon style={{"margin-bottom": "-7%"}}/><br/><KeyboardArrowUpIcon/></div>
+                        :<KeyboardArrowDownIcon/>}
                     </span>
                     </div>
                 </div>
