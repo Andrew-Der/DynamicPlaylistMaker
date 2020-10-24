@@ -17,7 +17,6 @@ const submitForm = async(state, dispatch, token, callback, return_count_only=fal
         rank: song.rank + 5,
       }
     })
-    console.log(adjusted_base_song_ranks)
     const ret = await perform('post', '/create_playlist', 
     {
         'playlist_name' : state.playlistName,
@@ -67,9 +66,9 @@ const FormPage2 = () => {
           <div className="pageDosContent">
             <div className="text-box container">
             <span> Let's set the Minimum Rating Acceptance.  
-              This is a threshold for new songs to be added into your final playlist. <br/>
-              The lower the Acceptance, the more vague and wider song selection. <br/>
-              The higher the Acceptance, the more specific and accurate song selection. <br/><br/>
+              This is a threshold for new songs to be added into the final playlist.
+              <br/>The lower the Acceptance, the more vague and wider song selection.
+              <br/>The higher the Acceptance, the more specific and accurate song selection. <br/><br/>
               Feel free to play around with different values by adjusting the acceptance and clicking "Calculate"!
               <br/><br/>                    
               When you're happy with the number of new songs added, hit CREATE! 
@@ -126,7 +125,7 @@ const FormPage2 = () => {
               formState.createPlaylistSuccess ?
                 <span className="yellow-text">
                   Listen to your new playlist{' '}
-                  <a href={formState.createPlaylistLink}>
+                  <a href={formState.createPlaylistLink} target="_blank">
                   right in Spotify.
                   </a>
                 </span>

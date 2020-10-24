@@ -31,8 +31,8 @@ const FormPage1Container = () => {
                     Then, use the search bar to find songs and select them into the playlist. 
                     After adding the songs, rate each song individually according to playlist relevance where:
                     <br/><br/>1 = The song is good but just here for the sake of harmony
-                    <br/>3 = Great song and would like to hear more like it, it moderately characterizes this playlist
-                    <br/>5 = Love the song and really want to hear more like it, it strongly characterizes this playlist
+                    <br/>3 = Great song and would like to hear more, it moderately characterizes this playlist
+                    <br/>5 = Love the song and really want to hear more, it strongly characterizes this playlist
                     <br/><br/>
                     The small catch here, there must be at least two of each number rating and at least 6 songs. 
                     <br/>Happy Playlisting!

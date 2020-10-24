@@ -11,8 +11,9 @@ const HomePage = () => {
             <p>
               ABOUT PAGE
             </p>
-            <Link to={LOGIN_URL}>Click to login</Link>
-            <Link to={LOGIN_URL}>Click to login</Link>
+            <Link to={LOGIN_URL}>Login Page!</Link>
+            <br/>
+            <Link to={LOGIN_URL}>Login Page!</Link>
         </div>
       </div>
     </>
